@@ -1,0 +1,28 @@
+.login-container{
+  margin-top:30%;
+  padding:20px;
+  min-width: 200px;
+  max-width: 600px;
+  background-color: #f2f2c6;
+  margin:0 auto;
+}
+.login-form {
+    
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .login-full-width {
+    width: 100%;
+  }
+
+.button-row button,
+.button-row a {
+  margin-right: 8px;
+}
+.materilal-icons{
+  width:40px;
+  height: 40px;
+  padding:15px;
+}

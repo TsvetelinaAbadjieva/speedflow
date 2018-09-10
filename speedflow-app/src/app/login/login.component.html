@@ -1,0 +1,29 @@
+<div class="login-container">
+  <h3><i class="material-icons">perm_identity</i>Login form</h3>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form text-center">
+
+  <!-- Username Input Field   -->
+  <mat-form-field class="login-full-width">
+    <input matInput placeholder="Username" [formControl]="username" [ngClass]="{'is-invalid': isSubmitted && username.errors}" class="form-control">
+    <mat-error *ngIf="isSubmitted && username.errors" class="invalid-feedback">
+        <div *ngIf="username.errors.required">Username is <strong>required</strong></div>
+        <div *ngIf="username.errors.minlength">Username is not less than 4 symbols</div>
+        <div *ngIf="username.errors.pattern">Username allow only alphabet symbols, numbers and "_"  </div>
+      </mat-error>
+  </mat-form-field>
+  <!-- Password Input Field   -->
+  <mat-form-field class="login-full-width">
+      <input matInput placeholder="Password" [formControl]="password" [ngClass]="{'is-invalid': isSubmitted && password.errors}" class="form-control">
+      <mat-error *ngIf="isSubmitted && password.errors" class="invalid-feedback">
+          <div *ngIf="password.errors.required">Password is <strong>required</strong></div>
+          <div *ngIf="password.errors.minlength">Password is not less than 4 symbols</div>
+          <div *ngIf="password.errors.pattern">Password allow only alphabet symbols, numbers and "_"  </div>
+      </mat-error>
+    </mat-form-field>
+  
+  <div class="button-row">
+      <button mat-stroked-button type="submit" color="primary" >Login</button>
+  </div>
+  <mat-error class="invalid-feedback">{{errorMsg}}</mat-error>
+</form>
+</div> 
