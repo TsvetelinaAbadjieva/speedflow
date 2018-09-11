@@ -28,8 +28,9 @@ export class JWTInterceptor implements HttpInterceptor{
         
         if(req.url !== BASE_URL+'/api/auth-token/' ){
 
-            let user = JSON.parse(localStorage.getItem('user'));
-            let token = JSON.parse(localStorage.getItem('user')).token || '';
+            let userStr = localStorage.getItem('user');
+            let user = userStr ? JSON.parse(userStr) : null;
+            let token = user ? user.token : '';
             reqCloned = req.clone({
                 setHeaders: {
                     "Authorization": "Token "+ token,

@@ -17,7 +17,7 @@ export class CacheService {
    */
   constructor() { }
 
-  get(req: HttpRequest<any>): Observable<any> | undefined {
+  get(req: HttpRequest<any>): Observable<HttpResponse<any>> | undefined {
     const url = req.urlWithParams;
     const cached = this.cache.get(url);
     console.log('GET From cache = ', cached);
@@ -27,7 +27,7 @@ export class CacheService {
     const isExpired = cached.lastRead < (Date.now() - maxAge);
     const expired = isExpired ? 'expired' : '';
     console.log('Is Expired-> ', isExpired);
-    return cached.response.asObservable();
+    return cached.response;
 
   }
   put(req: HttpRequest<any>, response: HttpResponse<any>): void{

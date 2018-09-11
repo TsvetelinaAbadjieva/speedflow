@@ -10,12 +10,12 @@ export class CachingInterceptor implements HttpInterceptor {
 
   constructor(private cache: CacheService) { }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
     console.log('In cache interceptor');
     console.log(req.url);
     const cachedResponse = this.cache.get(req);
     console.log(cachedResponse);
-    return cachedResponse ? cachedResponse : this.sendRequest(req, next, this.cache); 
+    return cachedResponse ? cachedResponse as Observable<HttpResponse<any>> : this.sendRequest(req, next, this.cache); 
   }
 
   sendRequest(req: HttpRequest<any>, next: HttpHandler, cache: CacheService): Observable<HttpEvent<any>>{
