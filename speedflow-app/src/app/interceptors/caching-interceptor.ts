@@ -1,28 +1,32 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpRequest, HttpResponse, HttpInterceptor, HttpHandler } from '@angular/common/http';
-// import { of } from 'rxjs';
-import { startWith, tap}   from 'rxjs/operators';
+import { tap,}   from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { RequestCacheService } from '../services/request-cache.service';
+import { CacheService } from '../services/cache/cache.service';
+import { of, BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class CachingInterceptor implements HttpInterceptor {
 
-  constructor(private cache: RequestCacheService) { }
+  constructor(private cache: CacheService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const cachedResponse = this.cache.get(req);//todo get
-    return cachedResponse ? new Observable() : this.sendRequest(req, next, this.cache); 
+    console.log('In cache interceptor');
+    console.log(req.url);
+    const cachedResponse = this.cache.get(req);
+    console.log(cachedResponse);
+    return cachedResponse ? cachedResponse : this.sendRequest(req, next, this.cache); 
   }
 
-  sendRequest(req: HttpRequest<any>, next: HttpHandler, cache: RequestCacheService): Observable<HttpEvent<any>>{
+  sendRequest(req: HttpRequest<any>, next: HttpHandler, cache: CacheService): Observable<HttpEvent<any>>{
+    console.log('In CacheIntercept->sendRequest');
     return next.handle(req).pipe(
-        tap((event) => { if (event instanceof HttpResponse){
-                cache.put(req, event);
-                //to do put
-                }
-            }
-        )
+        tap((event) => { 
+          if (event instanceof HttpResponse){
+              cache.put(req, event);
+              console.log('cache -->', cache);
+          }
+        })
     );
   }
 }

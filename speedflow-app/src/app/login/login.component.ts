@@ -4,8 +4,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import {FormBuilder, FormGroup, FormControl, Validators, ValidatorFn, AbstractControl} from '@angular/forms';
-import {LoginService} from '../services/login.service';
-import { BASE_URL } from '../constants/constants';
+import {LoginService} from '../services/login/login.service';
+import { BASE_URL, EXPIRE_TOKEN } from '../constants/constants';
 import {Observer, throwError} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -25,11 +25,14 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isSubmitted:boolean;
   errorMsg: string;
+  inProgress: boolean;
+  dataHasLoaded: boolean;
 
   constructor(private fb: FormBuilder, private api: LoginService, private router: Router) { }
 
   ngOnInit() {
-    this.api.logout();
+    this.inProgress = false;
+    this.dataHasLoaded = false;
     this.errorMsg = '';
     this.isSubmitted = false;
     this.loginForm = this.fb.group({
@@ -56,32 +59,41 @@ export class LoginComponent implements OnInit {
     return userModel;
   }
 
+
   onSubmit(){
 
     this.isSubmitted = true;
+    // this.inProgress = true;
+    this.dataHasLoaded = false;
     this.errorMsg = '';
     let user = this.bindModel();
     console.log(user);
+
     if(this.loginForm.invalid){
       return;
     }
+    
     this.isSubmitted = false;
-    let _this = this;
+    let _this = this;    
+
     this.api.login(user, _this).subscribe(
       (user) => {
           console.log(user);
           if (user && user.token){
               const userData = {
                   token: user.token,
-                  expires_date: user.expires_date
+                  expires_date: Date.now()+EXPIRE_TOKEN
+                  // expires_date: user.expires_date
               }
+              // this.inProgress = false;
               localStorage.setItem('user', JSON.stringify(userData));
-              this.router.navigate(['user-data']);
+              console.log('After save token ', localStorage.getItem('user'))
+              _this.router.navigate(['user-data']);
           }
       },
       error => {
         _this.errorMsg ="Invalid credentials";
-        console.log(_this); 
+        _this.router.navigate(['/']);        
         throwError(error);
       }
      );
