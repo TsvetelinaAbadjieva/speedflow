@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {LoginComponent} from './login/login.component';
 import { AppComponent } from './app.component';
-import {UserDataComponent} from './user/user-data.component';
-
+import { Routes, RouterModule } from '@angular/router';
+import { LoginComponent} from './components/login/login.component';
+import { UserDataDashboardComponent} from './components/user-data-dashboard/user-data-dashboard.component';
+import { ProfileComponent} from './components/profile/profile.component'
 const routes: Routes = [
   {
     path:"",
@@ -11,7 +11,9 @@ const routes: Routes = [
   },
   {
     path:"user-data",
-    component: UserDataComponent
+    // component: ProfileComponent
+    component: UserDataDashboardComponent
+
   },
 
 ];

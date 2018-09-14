@@ -1,0 +1,28 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "custom server",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TsvetelinaAbadjieva/speedflow.git"
+  },
+  "author": "Tsvetelina Abadjieva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TsvetelinaAbadjieva/speedflow/issues"
+  },
+  "homepage": "https://github.com/TsvetelinaAbadjieva/speedflow#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "http": "0.0.0",
+    "jsonwebtoken": "^8.3.0",
+    "password-hash": "^1.2.2"
+  }
+}

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpResponse} from '@angular/common/http';
 import { Observable, ObservableLike } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 
 const maxAge= 30000;
 @Injectable()
@@ -15,9 +16,13 @@ export class CacheService {
    * lastRead: Date.now()
    * }
    */
-  constructor() { }
+  constructor(private auth: AuthService) { }
 
   get(req: HttpRequest<any>): Observable<HttpResponse<any>> | undefined {
+    let token = this.auth.getAuthenticationToken(req);
+    if (!token){
+      return undefined;
+    }
     const url = req.urlWithParams;
     const cached = this.cache.get(url);
     console.log('GET From cache = ', cached);
@@ -32,6 +37,10 @@ export class CacheService {
   }
   put(req: HttpRequest<any>, response: HttpResponse<any>): void{
 
+    let token = this.auth.getAuthenticationToken(req);
+    if (!token){
+      return;
+    }
     const url = req.url;
     const entry = {url, response, lastRead: Date.now() };
     this.cache.set(url, entry);

@@ -3,6 +3,7 @@ import { BehaviorSubject, throwError} from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { switchMap, debounceTime, withLatestFrom, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+
 @Injectable()
 export class ShareDataService {
 
@@ -23,6 +24,7 @@ public  sharedObserver = this.sharedDataSource.asObservable();
   return currentEndPoint;
  }
  setCurrentData(data: any){
+   console.log('In setCurrentData -> ', data);
       this.sharedDataSource.next(data);
  }
 
