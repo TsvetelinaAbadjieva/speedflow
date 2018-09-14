@@ -12,6 +12,7 @@ import { ShareDataService } from '../../services/share-data/share-data.service';
 export class StatusComponent implements OnInit {
 
   status: any={};
+  statuses: any[] = [];
   endPointStauses = BASE_URL+'ui/userdata/';
 
   constructor(private http: HttpClient, private sharedService: ShareDataService) { }
@@ -29,6 +30,9 @@ export class StatusComponent implements OnInit {
           notification_threshold: res.notification_threshold,
           last_login: res.last_login,
           currency: res.currency
+        }
+        for(let i=0; i<3; i++){
+          this.statuses.push(this.status);
         }
       });
   }

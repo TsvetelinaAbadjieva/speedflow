@@ -3,12 +3,13 @@ import { PaymentsTableComponent } from '../payments-table/payments-table.compone
 import { ProfileComponent } from '../profile/profile.component';
 import { ProfileModel } from '../profile/profile.model';
 import { ShareDataService } from '../../services/share-data/share-data.service';
-import { map } from 'rxjs/operators';
+import { map, timestamp } from 'rxjs/operators';
 import { Breakpoints, BreakpointState, BreakpointObserver } from '@angular/cdk/layout';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL, BASE_URL_USERS } from '../../constants/constants';
 import { Router } from '@angular/router';
 import { CacheService } from '../../services/cache/cache.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-user-data-dashboard',
@@ -23,8 +24,8 @@ export class UserDataDashboardComponent {
     map(({ matches }) => {
       if (matches) {
         return [
-          { title: 'Card 2', cols: 10, rows: 5 },
-          // { title: 'Card 3', cols: 1, rows: 1 },
+          { title: 'Card 2', cols: 3, rows: 1 },
+          { title: 'Card 3', cols: 4, rows: 1 },
           // { title: 'Card 4', cols: 1, rows: 1 },
           // { title: 'Card 1', cols: 1, rows: 1 },
 
@@ -32,8 +33,8 @@ export class UserDataDashboardComponent {
       }
 
       return [
-        { title: 'Users', cols: 10, rows: 5 },
-        // { title: 'Pages', cols: 1, rows: 1}
+        { title: 'Users', cols: 5, rows: 1 },
+        { title: 'Statuses', cols: 1, rows: 1}
       ];
     })
   );
@@ -52,7 +53,8 @@ export class UserDataDashboardComponent {
     private sharedService: ShareDataService, 
     private breakpointObserver: BreakpointObserver, 
     private router:Router,
-    private cache: CacheService
+    private cache: CacheService,
+    private auth: AuthService
   ) { }
 
 
@@ -94,11 +96,17 @@ export class UserDataDashboardComponent {
 
    async loadMultiple(n){
     for (var i=0; i< n; i++){
+      console.log('Load Multiple time', Date.now());
       await this.loadData();
     }
   }
   refresh(){
     this.cache.clear();
-    this.router.navigate([this.router.url]);  
+    console.log('Cache Clear ', this.cache);
+    window.location.reload(true);
+    if(!this.auth.getAuthenticationToken){
+      console.log(this.auth.getAuthenticationToken);
+      this.router.navigate(['/']);
+    }
   }
 }

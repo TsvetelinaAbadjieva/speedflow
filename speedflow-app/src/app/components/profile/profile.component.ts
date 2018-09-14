@@ -17,10 +17,9 @@ import { Router } from '@angular/router';
 
 export class ProfileComponent implements OnInit {
 
-  @Input() userProfile: ProfileModel;
   endPoint = BASE_URL + '/api/ui/userdata/';
   profile: ProfileModel;
-  profiles: ProfileModel[];
+  profiles: ProfileModel[] = [];
   status: any = {};
 
   constructor(
@@ -36,15 +35,16 @@ export class ProfileComponent implements OnInit {
   }
   refresh() {
     this.cache.clear();
-    this.router.navigate(['user-data']);
+    window.location.reload(true);
   }
   async loadData() {
     this.sharedService.sharedObserver.subscribe(data => {
       this.profiles = data;
     });
   }
-  async loadDataMultiple(n) {
+   async loadMultiple(n) {
     for(var i=0; i<n; i++){
+      console.log('LoadMultiple time', Date.now());
       await this.loadData();
     }
   }

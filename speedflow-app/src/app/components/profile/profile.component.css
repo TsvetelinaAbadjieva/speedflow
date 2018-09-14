@@ -1,6 +1,6 @@
 .example-card {
-    max-width: 400px;
-    max-height: 30%
+    max-width: 50%;
+    max-height: 40%
   }
   
   .example-header-image {
@@ -8,8 +8,8 @@
     background-size: cover;
   }
   .avatar {
-    width:45px;
-    border-radius: 20px;
+    width:60px;
+    border-radius: 30px;
   }
   span {
     font-size: 20px;

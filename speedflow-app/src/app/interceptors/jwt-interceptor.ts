@@ -38,7 +38,7 @@ export class JWTInterceptor implements HttpInterceptor {
         else if (req.url == BASE_URL + 'ui/userdata/') {
             let token = this.auth.getAuthenticationToken(req);
             console.log('In ui/Userdata -> ',token)
-            if (!token) {
+            if (token == null || token == undefined) {
                 this.router.navigate(['/']);
                 return next.handle(req);
             }

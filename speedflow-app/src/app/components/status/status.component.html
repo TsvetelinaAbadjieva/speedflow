@@ -1,4 +1,4 @@
-<mat-card class="dashboard-card">
+<mat-card *ngFor="let status of statuses" class="dashboard-card">
     <!-- Header -->
     <mat-card-header *ngIf="status">
       <mat-card-title>
