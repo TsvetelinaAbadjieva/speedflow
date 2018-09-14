@@ -1,10 +1,11 @@
 import { Component, OnInit, Injectable, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from '../../constants/constants';
-import { ProfileModel} from './profile.model';
+import { ProfileModel } from './profile.model';
 import { ShareDataService } from '../../services/share-data/share-data.service';
 
-import { AbstractEmitterVisitor } from '@angular/compiler/src/output/abstract_emitter';
+import { CacheService } from '../../services/cache/cache.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 @Component({
@@ -17,17 +18,34 @@ import { AbstractEmitterVisitor } from '@angular/compiler/src/output/abstract_em
 export class ProfileComponent implements OnInit {
 
   @Input() userProfile: ProfileModel;
-  endPoint = BASE_URL+'/api/ui/userdata/';
+  endPoint = BASE_URL + '/api/ui/userdata/';
   profile: ProfileModel;
   profiles: ProfileModel[];
-  
-  constructor(private http:HttpClient, private sharedService: ShareDataService) { }
+  status: any = {};
+
+  constructor(
+    private http: HttpClient,
+    private sharedService: ShareDataService,
+    private cache: CacheService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     console.log('In ONINIT ProfileComponent');
+    this.loadData();
+  }
+  refresh() {
+    this.cache.clear();
+    this.router.navigate(['user-data']);
+  }
+  async loadData() {
     this.sharedService.sharedObserver.subscribe(data => {
       this.profiles = data;
     });
   }
-
+  async loadDataMultiple(n) {
+    for(var i=0; i<n; i++){
+      await this.loadData();
+    }
+  }
 }

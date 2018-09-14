@@ -27,6 +27,8 @@ export class StatusComponent implements OnInit {
           debet: res.debet,
           credit_limit: res.credit_limit,
           notification_threshold: res.notification_threshold,
+          last_login: res.last_login,
+          currency: res.currency
         }
       });
   }

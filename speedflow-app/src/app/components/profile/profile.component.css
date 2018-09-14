@@ -8,6 +8,13 @@
     background-size: cover;
   }
   .avatar {
-    width:30px;
-    border-radius: 15px;
+    width:45px;
+    border-radius: 20px;
+  }
+  span {
+    font-size: 20px;
+    color:#c1bf3e;
+  }
+  mat-card-header{
+    background-color: #589690;
   }

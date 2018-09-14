@@ -7,7 +7,8 @@ import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointState, BreakpointObserver } from '@angular/cdk/layout';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL, BASE_URL_USERS } from '../../constants/constants';
-
+import { Router } from '@angular/router';
+import { CacheService } from '../../services/cache/cache.service';
 
 @Component({
   selector: 'app-user-data-dashboard',
@@ -22,7 +23,7 @@ export class UserDataDashboardComponent {
     map(({ matches }) => {
       if (matches) {
         return [
-          { title: 'Card 2', cols: 1, rows: 5 },
+          { title: 'Card 2', cols: 10, rows: 5 },
           // { title: 'Card 3', cols: 1, rows: 1 },
           // { title: 'Card 4', cols: 1, rows: 1 },
           // { title: 'Card 1', cols: 1, rows: 1 },
@@ -31,7 +32,7 @@ export class UserDataDashboardComponent {
       }
 
       return [
-        { title: 'Users', cols: 1, rows: 5 },
+        { title: 'Users', cols: 10, rows: 5 },
         // { title: 'Pages', cols: 1, rows: 1}
       ];
     })
@@ -46,7 +47,13 @@ export class UserDataDashboardComponent {
   pages: any = {};
   status: any = {};
 
-  constructor(private http: HttpClient, private sharedService: ShareDataService, private breakpointObserver: BreakpointObserver) { }
+  constructor(
+    private http: HttpClient, 
+    private sharedService: ShareDataService, 
+    private breakpointObserver: BreakpointObserver, 
+    private router:Router,
+    private cache: CacheService
+  ) { }
 
 
   ngOnInit() {
@@ -54,11 +61,11 @@ export class UserDataDashboardComponent {
     console.log('BaseURL = ', BASE_URL);
     console.log('EndPoint = ', this.endPoint);
     console.log('EndPointStatuses = ', this.endPointStauses);
-    this.loadMultiple(3);
+    this.loadData();
 
   }
 
-  loadData(){
+  async loadData(){
     this.http.get<any>(this.endPoint)
     // .subscribe(
     .toPromise().then(
@@ -85,9 +92,13 @@ export class UserDataDashboardComponent {
       });
   }
 
-  loadMultiple(n){
+   async loadMultiple(n){
     for (var i=0; i< n; i++){
-      this.loadData();
+      await this.loadData();
     }
+  }
+  refresh(){
+    this.cache.clear();
+    this.router.navigate([this.router.url]);  
   }
 }

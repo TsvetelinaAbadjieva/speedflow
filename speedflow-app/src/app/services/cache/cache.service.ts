@@ -52,4 +52,8 @@ export class CacheService {
       }
     });
   }
+
+  clear(){
+    this.cache.clear;
+  }
 }
