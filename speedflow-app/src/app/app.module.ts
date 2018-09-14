@@ -17,7 +17,7 @@ import { CacheService } from './services/cache/cache.service';
 import { CachingInterceptor } from './interceptors/caching-interceptor';
 // import { HeadersInterceptorService } from './services/headers-interceptor.service';
 import { LoginService} from './services/login/login.service';
-import { BASE_URL, EXPIRE_TOKEN} from './constants/constants';
+import { BASE_URL, EXPIRE_TOKEN, BASE_URL_USERS} from './constants/constants';
 import { ProfileComponent } from './components/profile/profile.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { StatusComponent } from './components/status/status.component';

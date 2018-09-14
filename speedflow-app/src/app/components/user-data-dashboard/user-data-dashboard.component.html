@@ -1,84 +1,26 @@
 <div class="grid-container">
   <h1 class="mat-h1">User Information</h1>
-  <mat-grid-list cols="3" rowHeight="350px">
+  <mat-grid-list cols="4" rowHeight="350px">
 
     <!-- Tile 1  begin   -->
-    <mat-grid-tile [colspan]="1" [rowspan]="1">
+    <mat-grid-tile [colspan]="4" [rowspan]="4">
       <mat-card class="dashboard-card">
         <!-- Header -->
         <mat-card-header>
           <mat-card-title>
-            <h4>Profile</h4>
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
+            <h4>Profiles</h4>
           </mat-card-title>
         </mat-card-header>
         <!-- Content -->
         <mat-card-content class="dashboard-card-content">
-          <div> <app-profile></app-profile></div>
-
+          <div> 
+            <app-profile></app-profile>
+          </div>
         </mat-card-content>
         <!-- End Content of one tile      -->
       </mat-card>
     </mat-grid-tile>
     <!-- Tile 1  end   -->
-
-    <!-- Tile 2  begin   -->
-    <mat-grid-tile [colspan]="1" [rowspan]="1">
-      <mat-card class="dashboard-card">
-        <!-- Header -->
-        <mat-card-header>
-          <mat-card-title>
-            <h4>User details</h4>
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
-          </mat-card-title>
-        </mat-card-header>
-        <!-- Content -->
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here   </div>
-
-        </mat-card-content>
-        <!-- End Content of one tile      -->
-      </mat-card>
-    </mat-grid-tile>
-    <!-- Tile 2  end   -->
-
-    <!-- Tile 3  begin   -->
-    <mat-grid-tile [colspan]="1" [rowspan]="1">
-      <mat-card class="dashboard-card">
-        <!-- Header -->
-        <mat-card-header>
-          <mat-card-title>
-            <h4>Status</h4>
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
-          </mat-card-title>
-        </mat-card-header>
-        <!-- Content -->
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here </div>
-
-        </mat-card-content>
-        <!-- End Content  -->
-      </mat-card>
-    </mat-grid-tile>
-    <!-- Tile 3  end   -->
 
     <!-- Tile 4  begin   -->
     <mat-grid-tile [colspan]="3" [rowspan]="1">

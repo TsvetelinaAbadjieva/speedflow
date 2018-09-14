@@ -7,3 +7,7 @@
     background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
     background-size: cover;
   }
+  .avatar {
+    width:30px;
+    border-radius: 15px;
+  }

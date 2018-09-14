@@ -3,7 +3,7 @@ import { HttpEvent, HttpRequest, HttpResponse, HttpInterceptor, HttpHandler, Htt
 import { of } from 'rxjs';
 import { startWith, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { BASE_URL, EXPIRE_TOKEN } from '../constants/constants';
+import { BASE_URL, EXPIRE_TOKEN, BASE_URL_USERS } from '../constants/constants';
 import { Router, Route } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 
@@ -35,7 +35,7 @@ export class JWTInterceptor implements HttpInterceptor {
             return next.handle(reqCloned);
         }
 
-        else if (req.url != BASE_URL + 'auth-token/') {
+        else if (req.url == BASE_URL + 'ui/userdata/') {
             let token = this.auth.getAuthenticationToken(req);
             console.log('In ui/Userdata -> ',token)
             if (!token) {
@@ -49,6 +49,13 @@ export class JWTInterceptor implements HttpInterceptor {
                 },
             });
             return next.handle(reqCloned);
+        } else if (req.url == BASE_URL_USERS) {
+            reqCloned = req.clone({
+                setHeaders: {
+                    "Content-Type": "application/json;charset=UTF-8",
+                },
+            });
+            return next.handle(reqCloned)
         }
     }
 }

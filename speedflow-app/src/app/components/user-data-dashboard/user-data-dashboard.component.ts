@@ -6,7 +6,7 @@ import { ShareDataService } from '../../services/share-data/share-data.service';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointState, BreakpointObserver } from '@angular/cdk/layout';
 import { HttpClient } from '@angular/common/http';
-import { BASE_URL } from '../../constants/constants';
+import { BASE_URL, BASE_URL_USERS } from '../../constants/constants';
 
 
 @Component({
@@ -22,83 +22,72 @@ export class UserDataDashboardComponent {
     map(({ matches }) => {
       if (matches) {
         return [
-          { title: 'Card 2', cols: 1, rows: 1 },
-          { title: 'Card 3', cols: 1, rows: 1 },
-          { title: 'Card 4', cols: 1, rows: 1 },
-          { title: 'Card 1', cols: 1, rows: 1 },
+          { title: 'Card 2', cols: 1, rows: 5 },
+          // { title: 'Card 3', cols: 1, rows: 1 },
+          // { title: 'Card 4', cols: 1, rows: 1 },
+          // { title: 'Card 1', cols: 1, rows: 1 },
 
         ];
       }
 
       return [
-        { title: 'Profile', cols: 1, rows: 1 },
-        { title: 'User details', cols: 1, rows: 1 },
-        { title: 'Status', cols: 1, rows: 1},
-        { title: 'Payment operations', cols: 3, rows: 1}
+        { title: 'Users', cols: 1, rows: 5 },
+        // { title: 'Pages', cols: 1, rows: 1}
       ];
     })
   );
 
+  // endPoint = BASE_URL + 'ui/userdata/';
+  endPoint = BASE_URL_USERS;
+  endPointStauses = BASE_URL + 'ui/userdata/';
+
+  profiles: ProfileModel[] = [];
+  profile: ProfileModel;
+  pages: any = {};
+  status: any = {};
 
   constructor(private http: HttpClient, private sharedService: ShareDataService, private breakpointObserver: BreakpointObserver) { }
 
-  endPoint = BASE_URL + 'ui/userdata/';
-  profile: ProfileModel;
 
   ngOnInit() {
     console.log('In ONINIT ProfileComponent');
     console.log('BaseURL = ', BASE_URL);
     console.log('EndPoint = ', this.endPoint);
+    console.log('EndPointStatuses = ', this.endPointStauses);
+    this.loadMultiple(3);
 
+  }
 
-    this.http.get<ProfileModel>(this.endPoint).subscribe(
+  loadData(){
+    this.http.get<any>(this.endPoint)
+    // .subscribe(
+    .toPromise().then(
       res => {
-        console.log('Dashboard result -> ',res);
-        this.profile = {
-          username: res.username,
-          avatar: res.avatar,
-          first_name: res.first_name,
-          last_name: res.last_name,
-          email: res.email,
-          birthday: res.birthday,
-          is_active: true,
-          date_joined: res.date_joined,
-          last_login: res.last_login,
-          debet: 20.00,
-          credit_limit: 30.00,
-          notification_threshold: 20.00000,
-          currency: res.currency,
-          currency_name: res.currency_name,
-          paypal_payments: true,
-          borica_payments: true,
-          cpa_redirect: res.cpa_redirect,
-          cpa_postback: res.cpa_postback,
-
-        }
-        this.sharedService.setCurrentData(this.profile)    
+        console.log('Dashboard result -> ', res);
+        let data = res.data;
+        data.forEach(element => {
+          console.log('element', element)
+          this.profile = {
+            id: element.id,
+            avatar: element.avatar,
+            first_name: element.first_name,
+            last_name: element.last_name,
+          }
+          this.profiles.push(this.profile);
         });
+        this.pages = {
+          page: res.page,
+          per_page: res.per_page,
+          total: res.total,
+          total_pages: res.total_pages,
+        }
+        this.sharedService.setCurrentData(this.profiles)
+      });
+  }
 
-        //fake data
-        // this.profile = {
-        //   username: 'kalinka',
-        //   avatar: 'http://demo.powowbox.com/powowbox/avatar_demo/Jane_0001.png',
-        //   first_name: 'Kalina',
-        //   last_name: 'Malina',
-        //   email: 'kalinamalina@AbstractEmitterVisitor.bg',
-        //   birthday: '11.07.1999',
-        //   is_active: true,
-        //   date_joined: '11.09.2018',
-        //   last_login: '14.09.2018',
-        //   debet: 20.00,
-        //   credit_limit: 30.00,
-        //   notification_threshold: 20.00000,
-        //   currency: '$',
-        //   currency_name: 'USD',
-        //   paypal_payments: true,
-        //   borica_payments: true,
-        //   cpa_redirect: "http(s)://offerurl.com/?offer_id={offer_id}&",
-        //   cpa_postback: "https://dev.adcharge.eu/api/cpa/response/?sid={click_id}",
-        // }
-        // localStorage.setItem('user', JSON.stringify({ token: 'mytoken', expires_date: Date.now() + 10000000000000 }));
-      }
+  loadMultiple(n){
+    for (var i=0; i< n; i++){
+      this.loadData();
+    }
+  }
 }

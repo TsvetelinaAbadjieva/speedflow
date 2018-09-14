@@ -1,3 +1,19 @@
-<p>
-  status works!
-</p>
+<mat-card class="dashboard-card">
+    <!-- Header -->
+    <mat-card-header *ngIf="status">
+      <mat-card-title>
+        <h5>Active:{{status.is_active}}</h5>
+        <h5>Debet "debet":{{status.debet}} </h5>
+        <h5>Credit limit: {{status.credit_limit}}</h5>
+        <h5>notification_threshold:{{status.notification_threshold}} </h5>
+        <h5>last_login: {{status.last_login}}</h5>
+      </mat-card-title>
+    </mat-card-header>
+    <!-- Content -->
+    <mat-card-content class="dashboard-card-content">
+      <!-- <div>Card Content Here <app-payments-table></app-payments-table>  </div> -->
+
+    </mat-card-content>
+    <!-- End Content of one tile      -->
+  </mat-card>
+
