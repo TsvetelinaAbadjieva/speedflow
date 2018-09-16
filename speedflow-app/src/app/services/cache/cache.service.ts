@@ -32,6 +32,9 @@ export class CacheService {
     const isExpired = cached.lastRead < (Date.now() - maxAge);
     const expired = isExpired ? 'expired' : '';
     console.log('Is Expired-> ', isExpired);
+    if(isExpired){
+      return undefined;
+    }
     return cached.response;
 
   }

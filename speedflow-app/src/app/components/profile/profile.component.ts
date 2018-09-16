@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from '../../constants/constants';
 import { ProfileModel } from './profile.model';
 import { ShareDataService } from '../../services/share-data/share-data.service';
-
+import { debounceTime } from 'rxjs/operators';
 import { CacheService } from '../../services/cache/cache.service';
 import { Router } from '@angular/router';
 
@@ -34,7 +34,6 @@ export class ProfileComponent implements OnInit {
     this.loadData();
   }
   refresh() {
-    this.cache.clear();
     window.location.reload(true);
   }
   async loadData() {
@@ -44,7 +43,7 @@ export class ProfileComponent implements OnInit {
   }
    async loadMultiple(n) {
     for(var i=0; i<n; i++){
-      console.log('LoadMultiple time', Date.now());
+      console.log('LoadMultiple Profiles....', Date.now());
       await this.loadData();
     }
   }

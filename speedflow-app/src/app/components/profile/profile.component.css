@@ -8,13 +8,22 @@
     background-size: cover;
   }
   .avatar {
-    width:60px;
-    border-radius: 30px;
+    width: 100px;
+    max-width: 60%;
+    min-width: 40%;
+    border-radius: 35px;
   }
   span {
-    font-size: 20px;
+    font-size: 25px;
     color:#c1bf3e;
   }
   mat-card-header{
     background-color: #589690;
   }
+  .mat-button{
+    background-color: #dfe8c6;
+    margin-top:5px;
+}
+.mat-card{
+  background: beige;
+}

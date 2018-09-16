@@ -2,18 +2,24 @@
     <!-- Header -->
     <mat-card-header *ngIf="status">
       <mat-card-title>
-        <h5>Active:{{status.is_active}}</h5>
-        <h5>Debet "debet":{{status.debet}} {{status.currency}} </h5>
-        <h5>Credit limit: {{status.credit_limit}} {{status.currency}}</h5>
-        <h5>notification_threshold:{{status.notification_threshold}} </h5>
-        <h5>last_login: {{status.last_login | date}}</h5>
+        <h5>Active:<span>{{status.is_active}}</span></h5>
+        <h5>Debet :<span>{{status.debet}} {{status.currency}}</span> </h5>
+        <h5>Credit limit: <span>{{status.credit_limit}} {{status.currency}}</span></h5>
+        <h5>notification_threshold: <span>{{status.notification_threshold}}</span></h5>
+        <h5>last_login: <span>{{status.last_login | date}}</span></h5>
       </mat-card-title>
     </mat-card-header>
     <!-- Content -->
     <mat-card-content class="dashboard-card-content">
       <!-- <div>Card Content Here <app-payments-table></app-payments-table>  </div> -->
-
-    </mat-card-content>
+        </mat-card-content>
     <!-- End Content of one tile      -->
   </mat-card>
+  <mat-card-actions>
+    <button mat-button (click)="refresh()">Refresh status</button>
+    <button mat-button (click)="loadData()">Load status</button>
+    <button mat-button (click)="loadMultiple(3)">3 Load status</button>
+    <button mat-button (click)="loadMultiple(10)">10 Load status</button>
+  </mat-card-actions>
+
 

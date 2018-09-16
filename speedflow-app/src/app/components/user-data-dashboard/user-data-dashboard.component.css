@@ -21,3 +21,14 @@
   text-align: center;
 
 }
+.mat-button{
+  background-color: #dfe8c6;
+  margin-top:5px;
+}
+.pages {
+  font-size: 20px;
+  color: #acb010;
+  background-color: #1d3520;
+  padding-top:20px;
+  height: 45px;;
+}

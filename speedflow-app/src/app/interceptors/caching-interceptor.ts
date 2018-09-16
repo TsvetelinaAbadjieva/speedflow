@@ -26,7 +26,6 @@ export class CachingInterceptor implements HttpInterceptor {
     console.log('In CacheIntercept->sendRequest');
     console.log('req = ', req);
 
-    // const noHeaderReq = req.clone({ headers: new HttpHeaders() });
     return next.handle(req)
     .pipe(
       tap(event => {
