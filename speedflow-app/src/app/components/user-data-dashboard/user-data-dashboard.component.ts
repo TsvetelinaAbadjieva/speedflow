@@ -1,7 +1,7 @@
 import { Component, Injectable } from '@angular/core';
 import { ProfileModel } from '../profile/profile.model';
 import { ShareDataService } from '../../services/share-data/share-data.service';
-import { map, debounceTime, switchMap, distinctUntilChanged, take } from 'rxjs/operators';
+import { map, debounceTime, switchMap, distinctUntilChanged, take, share } from 'rxjs/operators';
 import { Breakpoints, BreakpointState, BreakpointObserver } from '@angular/cdk/layout';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL, BASE_URL_USERS } from '../../constants/constants';
@@ -44,6 +44,7 @@ export class UserDataDashboardComponent {
   status: any = {};
   counter: number = 0;
   loadDataBtn: any;
+  dataHasLoaded: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -60,6 +61,7 @@ export class UserDataDashboardComponent {
     console.log('BaseURL = ', BASE_URL);
     console.log('EndPoint = ', this.endPoint);
     console.log('EndPointStatuses = ', this.endPointStauses);
+    this.dataHasLoaded = false;
     this.profiles = [];
     this.loadData();
 
@@ -69,8 +71,9 @@ export class UserDataDashboardComponent {
     this.http.get<any>(this.endPoint)
       .pipe(
         debounceTime(300),
-        distinctUntilChanged(),
-        take<any>(1)
+        // distinctUntilChanged(),
+        // take<any>(1),
+        share()
       )
       // .subscribe(
       .toPromise().then(
@@ -78,6 +81,7 @@ export class UserDataDashboardComponent {
           this.profiles = [];
           this.pages = {};
           console.log('Dashboard result -> ', res);
+          this.dataHasLoaded = true;
           let data = res.data;
           data.forEach(element => {
             this.profile = {
@@ -104,9 +108,10 @@ export class UserDataDashboardComponent {
   }
 
   loadMultiple(n) {
+    this.dataHasLoaded = false;
     for (let i = 0; i < n; i++) {
       return new Promise((resolve, reject) => {
-        if (i == 0) {
+        if (!this.dataHasLoaded) {
           this.loadData();
           resolve(this.profiles);
           resolve(this.pages);
@@ -114,7 +119,6 @@ export class UserDataDashboardComponent {
           reject();
         }
       })
-      // await this.loadData();
     }
   }
 

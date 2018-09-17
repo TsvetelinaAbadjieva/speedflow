@@ -16,6 +16,7 @@ export class StatusComponent implements OnInit {
   status: any = {};
   statuses: any[] = [];
   endPointStauses = BASE_URL + 'ui/userdata/';
+  dataHasLoaded: boolean = false;
 
   constructor(private http: HttpClient,
     private sharedService: ShareDataService,
@@ -25,6 +26,7 @@ export class StatusComponent implements OnInit {
   ngOnInit() {
     console.log('In ONINIT StatusComponent');
     this.statuses = [];
+    this.dataHasLoaded = false;
     this.loadData();
   }
 
@@ -36,6 +38,7 @@ export class StatusComponent implements OnInit {
       .toPromise().then(
         res => {
           console.log('Load Status data... -> ', res);
+          this.dataHasLoaded = true;
           this.status = {};
           this.statuses = [];
           this.status = {
@@ -53,9 +56,10 @@ export class StatusComponent implements OnInit {
   }
 
   loadMultiple(n) {
+    this.dataHasLoaded = false;
     for (let i = 0; i < n; i++) {
       return new Promise((resolve, reject) => {
-        if (i == 0) {
+        if (!this.dataHasLoaded) {
           this.loadData();
           resolve(this.statuses);
         } else {
