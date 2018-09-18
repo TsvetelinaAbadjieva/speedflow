@@ -1,7 +1,7 @@
 import { Component, Injectable } from '@angular/core';
 import { ProfileModel } from '../profile/profile.model';
 import { ShareDataService } from '../../services/share-data/share-data.service';
-import { map, debounceTime, switchMap, distinctUntilChanged, take, share } from 'rxjs/operators';
+import { map, debounceTime, switchMap, distinctUntilChanged, take, share, shareReplay } from 'rxjs/operators';
 import { Breakpoints, BreakpointState, BreakpointObserver } from '@angular/cdk/layout';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL, BASE_URL_USERS } from '../../constants/constants';
@@ -34,7 +34,6 @@ export class UserDataDashboardComponent {
     })
   );
 
-  // endPoint = BASE_URL + 'ui/userdata/';
   endPoint = BASE_URL_USERS;
   endPointStauses = BASE_URL + 'ui/userdata/';
 
@@ -71,12 +70,10 @@ export class UserDataDashboardComponent {
     this.http.get<any>(this.endPoint)
       .pipe(
         debounceTime(300),
-        // distinctUntilChanged(),
-        // take<any>(1),
-        share()
+        shareReplay()
       )
-      // .subscribe(
-      .toPromise().then(
+      .subscribe(
+      // .toPromise().then(
         res => {
           this.profiles = [];
           this.pages = {};
@@ -121,14 +118,23 @@ export class UserDataDashboardComponent {
       })
     }
   }
-
-  refresh() {
+  refreshProfiles() {
     this.cache.cache.delete(this.endPoint);
     console.log('Cache Clear ', this.cache);
-    window.location.reload(true);
     if (!this.auth.getAuthenticationToken) {
       console.log(this.auth.getAuthenticationToken);
       this.router.navigate(['/']);
     }
+    this.loadData();
+  }
+
+  refresh() {
+    this.cache.cache.delete(this.endPoint);
+    console.log('Cache Clear ', this.cache);
+    if (!this.auth.getAuthenticationToken) {
+      console.log(this.auth.getAuthenticationToken);
+      this.router.navigate(['/']);
+    }
+    window.location.reload(true);
   }
 }

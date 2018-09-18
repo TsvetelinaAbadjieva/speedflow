@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BASE_URL } from '../../constants/constants';
 import { HttpClient } from '@angular/common/http';
 import { ShareDataService } from '../../services/share-data/share-data.service';
-import { debounceTime, share } from 'rxjs/operators';
+import { debounceTime, share, shareReplay } from 'rxjs/operators';
 import { CacheService } from '../../services/cache/cache.service';
 
 @Component({
@@ -34,7 +34,7 @@ export class StatusComponent implements OnInit {
     this.http.get<any>(this.endPointStauses)
       .pipe(
         debounceTime(300),
-        share()
+        shareReplay()
       )
       .toPromise().then(
         res => {
@@ -72,6 +72,6 @@ export class StatusComponent implements OnInit {
 
   refresh() {
     this.cache.cache.delete(this.endPointStauses);
-    window.location.reload(true);
+    this.loadData();
   }
 }

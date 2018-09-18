@@ -1,6 +1,6 @@
 import { Component, OnInit, Injectable, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BASE_URL } from '../../constants/constants';
+import { BASE_URL, BASE_URL_USERS } from '../../constants/constants';
 import { ProfileModel } from './profile.model';
 import { ShareDataService } from '../../services/share-data/share-data.service';
 import { debounceTime } from 'rxjs/operators';
@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 
 export class ProfileComponent implements OnInit {
 
-  endPoint = BASE_URL + '/api/ui/userdata/';
+  endPoint = BASE_URL_USERS;
   profile: ProfileModel;
   profiles: ProfileModel[] = [];
   status: any = {};
@@ -36,15 +36,9 @@ export class ProfileComponent implements OnInit {
   refresh() {
     window.location.reload(true);
   }
-  async loadData() {
+  loadData() {
     this.sharedService.sharedObserver.subscribe(data => {
       this.profiles = data;
     });
-  }
-   async loadMultiple(n) {
-    for(var i=0; i<n; i++){
-      console.log('LoadMultiple Profiles....', Date.now());
-      await this.loadData();
-    }
   }
 }

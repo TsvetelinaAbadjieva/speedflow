@@ -1,8 +1,8 @@
 <div>
   <!-- <h4>Profile</h4> -->
-  <mat-card class="example-card col-md-6">
+  <mat-card *ngIf="profiles" class="example-card col-md-6">
 
-    <mat-card-header *ngFor="let profile  of profiles">
+    <mat-card-header *ngFor="let profile of profiles">
       <div mat-card-avatar class="background-image" [style.backgroundImage]=""></div>
       <mat-card-title>
         <h5>User</h5><img src="{{profile.avatar }}" alt="" class="avatar">

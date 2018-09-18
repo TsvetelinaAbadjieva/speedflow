@@ -15,7 +15,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JWTInterceptor } from './interceptors/jwt-interceptor';
 import { CacheService } from './services/cache/cache.service';
 import { CachingInterceptor } from './interceptors/caching-interceptor';
-// import { HeadersInterceptorService } from './services/headers-interceptor.service';
 import { LoginService} from './services/login/login.service';
 import { BASE_URL, EXPIRE_TOKEN, BASE_URL_USERS} from './constants/constants';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -23,7 +22,6 @@ import { UserDetailsComponent } from './components/user-details/user-details.com
 import { StatusComponent } from './components/status/status.component';
 import { UserDataDashboardComponent } from './components/user-data-dashboard/user-data-dashboard.component';
 import { MatGridListModule, MatMenuModule, MatIconModule, MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
-import { PaymentsTableComponent } from './components/payments-table/payments-table.component';
 import { AuthService } from './services/auth/auth.service';
 import { ShareDataService } from './services/share-data/share-data.service';
 
@@ -36,7 +34,6 @@ import { ShareDataService } from './services/share-data/share-data.service';
     UserDetailsComponent,
     StatusComponent,
     UserDataDashboardComponent,
-    PaymentsTableComponent,
   ],
   imports: [
     BrowserModule,
