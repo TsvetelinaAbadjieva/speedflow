@@ -72,8 +72,8 @@ export class UserDataDashboardComponent {
         debounceTime(300),
         shareReplay()
       )
-      .subscribe(
-      // .toPromise().then(
+      // .subscribe(
+      .toPromise().then(
         res => {
           this.profiles = [];
           this.pages = {};

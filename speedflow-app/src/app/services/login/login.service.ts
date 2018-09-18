@@ -32,6 +32,7 @@ export class LoginService {
            },
            (error) => {
                console.log(error);
+               _this.errorMsg = 'Invalid credentials';
                throwError(error)
             }
         )

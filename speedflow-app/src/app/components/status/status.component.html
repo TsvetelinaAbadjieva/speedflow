@@ -3,10 +3,10 @@
     <mat-card-header *ngIf="status">
       <mat-card-title>
         <h5>Active:<span>{{status.is_active}}</span></h5>
-        <h5>Debet :<span>{{status.debet}} {{status.currency}}</span> </h5>
-        <h5>Credit limit: <span>{{status.credit_limit}} {{status.currency}}</span></h5>
-        <h5>notification_threshold: <span>{{status.notification_threshold}}</span></h5>
-        <h5>last_login: <span>{{status.last_login | date}}</span></h5>
+        <h5>Debet :<span>{{status.debet | number:'1.2-2' }} {{status.currency}}</span> </h5>
+        <h5>Credit limit: <span>{{status.credit_limit | number:'1.2-2'}} {{status.currency}}</span></h5>
+        <h5>Notification threshold: <span>{{status.notification_threshold | number}}</span></h5>
+        <h5>Last login: <span>{{status.last_login | date}}</span></h5>
       </mat-card-title>
     </mat-card-header>
     <!-- Content -->
