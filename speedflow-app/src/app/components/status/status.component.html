@@ -1,4 +1,30 @@
-<mat-card *ngFor="let status of statuses" class="dashboard-card">
+
+<mat-card  class="dashboard-card">
+    <mat-card-header *ngIf="status">
+      <mat-card-title>
+        <h4>{{status.first_name}} {{status.last_name }}  </h4>
+        <h4> <span class="birthday" >Birthday: {{status.birthday}}</span></h4>
+        <h4><img class="avatar" src={{status.avatar}} alt=""></h4>
+      </mat-card-title>
+    </mat-card-header>
+    <!-- Content -->
+    <mat-card-content class="dashboard-card-content">
+    </mat-card-content>
+    <!-- End Content of one tile      -->
+  </mat-card>
+  <mat-card  *ngIf="status" class="dashboard-card user">
+      <!-- <mat-card-header  class="user">
+      </mat-card-header> -->
+      <mat-card-content class="dashboard-card-content">
+          <p>Username  </p><p class="username">{{status.username }} </p>
+          <p>Email</p>
+          <p><a href="mailTo:">{{status.email}}</a></p>
+          <p>Last login </p>
+          <p>{{status.last_login}}</p>
+      </mat-card-content>
+    </mat-card>
+    
+  <mat-card  class="dashboard-card">
     <!-- Header -->
     <mat-card-header *ngIf="status">
       <mat-card-title>
@@ -6,7 +32,6 @@
         <h5>Debet :<span>{{status.debet | number:'1.2-2' }} {{status.currency}}</span> </h5>
         <h5>Credit limit: <span>{{status.credit_limit | number:'1.2-2'}} {{status.currency}}</span></h5>
         <h5>Notification threshold: <span>{{status.notification_threshold | number}}</span></h5>
-        <h5>Last login: <span>{{status.last_login | date}}</span></h5>
       </mat-card-title>
     </mat-card-header>
     <!-- Content -->
@@ -15,6 +40,7 @@
         </mat-card-content>
     <!-- End Content of one tile      -->
   </mat-card>
+
   <mat-card-actions>
     <button mat-button (click)="refresh()">Refresh status</button>
     <button mat-button (click)="loadData()">Load status</button>

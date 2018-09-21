@@ -104,19 +104,22 @@ export class UserDataDashboardComponent {
     this.loadData();
   }
 
-  loadMultiple(n) {
+  loadMultiple(n){
     this.dataHasLoaded = false;
-    for (let i = 0; i < n; i++) {
-      return new Promise((resolve, reject) => {
-        if (!this.dataHasLoaded) {
-          this.loadData();
-          resolve(this.profiles);
-          resolve(this.pages);
-        } else {
-          reject();
-        }
-      })
+    let allReq = [];
+    let loadReq = new Promise((resolve, reject)=>{
+      if(!this.dataHasLoaded){
+        this.loadData();
+        resolve(this.profiles);
+        resolve(this.pages)
+      }else reject();
+    })
+    for (let i=0; i<n; i++){
+      allReq.push(loadReq);
     }
+    return  Promise.all(allReq).then(res => {
+      console.log('Promise i-> ',res)
+    });
   }
   refreshProfiles() {
     this.cache.cache.delete(this.endPoint);

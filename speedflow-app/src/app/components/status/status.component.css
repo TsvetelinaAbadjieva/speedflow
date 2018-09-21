@@ -2,13 +2,43 @@ mat-card-header{
     background-color: #e6ec7f;
     padding:5px;
     font-size: 40px;
-    text-align: center;
+    text-align: justify;
+}
+h4{
+    min-width:150px;
+    max-width: 200px;
+    font-size: 25px;
+    color:lightslategray;
+    margin:0 auto;
+    display:inline-block;
 }
 span{
     font-size:20px;
     color:#191950;
+    float:right;
+    padding-left: 25px;
+    text-align: center;
 }
 .mat-button{
     background-color: #dfe8c6;
     margin-top:5px;
+}
+.avatar {
+    width: 100px;
+    max-width: 70%;
+    min-width: 50%;
+    border-radius: 35px;
+    display:block;
+    float: right;
+  }
+.user > span{
+    font-size:10px;
+   text-align: justify;
+}
+.username {
+    font-size: 22px;
+    color: blue;
+}
+.birthday{
+    font-size:15px;
 }
