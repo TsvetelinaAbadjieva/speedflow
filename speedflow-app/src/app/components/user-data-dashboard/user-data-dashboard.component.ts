@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, Input } from '@angular/core';
 import { ProfileModel } from '../profile/profile.model';
 import { ShareDataService } from '../../services/share-data/share-data.service';
 import { map, debounceTime, switchMap, distinctUntilChanged, take, share, shareReplay } from 'rxjs/operators';
@@ -8,6 +8,8 @@ import { BASE_URL, BASE_URL_USERS } from '../../constants/constants';
 import { Router } from '@angular/router';
 import { CacheService } from '../../services/cache/cache.service';
 import { AuthService } from '../../services/auth/auth.service';
+import { MatSpinner} from '@angular/material';
+
 
 @Component({
   selector: 'app-user-data-dashboard',
@@ -33,7 +35,6 @@ export class UserDataDashboardComponent {
       ];
     })
   );
-
   endPoint = BASE_URL_USERS;
   endPointStauses = BASE_URL + 'ui/userdata/';
 
@@ -44,6 +45,7 @@ export class UserDataDashboardComponent {
   counter: number = 0;
   loadDataBtn: any;
   dataHasLoaded: boolean = false;
+  spinner: MatSpinner;
 
   constructor(
     private http: HttpClient,
@@ -56,6 +58,7 @@ export class UserDataDashboardComponent {
 
 
   ngOnInit() {
+    
     console.log('In ONINIT ProfileComponent');
     console.log('BaseURL = ', BASE_URL);
     console.log('EndPoint = ', this.endPoint);
@@ -67,6 +70,7 @@ export class UserDataDashboardComponent {
   }
 
   loadData(): any {
+    this.dataHasLoaded = false;
     this.http.get<any>(this.endPoint)
       .pipe(
         debounceTime(300),
@@ -77,7 +81,7 @@ export class UserDataDashboardComponent {
         res => {
           this.profiles = [];
           this.pages = {};
-          console.log('Dashboard result -> ', res);
+          console.log('REQUEST PASSED Dashboard result -> ', res);
           this.dataHasLoaded = true;
           let data = res.data;
           data.forEach(element => {
@@ -95,6 +99,7 @@ export class UserDataDashboardComponent {
             total: res.total,
             total_pages: res.total_pages,
           }
+          this.dataHasLoaded = true;
           console.log('loadData Executing...', this.counter++);
           this.sharedService.setCurrentData(this.profiles)
         });
@@ -104,22 +109,14 @@ export class UserDataDashboardComponent {
     this.loadData();
   }
 
-  loadMultiple(n){
-    this.dataHasLoaded = false;
-    let allReq = [];
-    let loadReq = new Promise((resolve, reject)=>{
-      if(!this.dataHasLoaded){
+  loadMultiple(n) {
+    for (let i = 0; i < n; i++) {
+      new Promise((resolve) => {
         this.loadData();
         resolve(this.profiles);
         resolve(this.pages)
-      }else reject();
-    })
-    for (let i=0; i<n; i++){
-      allReq.push(loadReq);
+      })
     }
-    return  Promise.all(allReq).then(res => {
-      console.log('Promise i-> ',res)
-    });
   }
   refreshProfiles() {
     this.cache.cache.delete(this.endPoint);

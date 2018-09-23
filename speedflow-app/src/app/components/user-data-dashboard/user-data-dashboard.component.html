@@ -14,6 +14,8 @@
         <!-- Content -->
         <mat-card-content class="dashboard-card-content">
           <app-profile></app-profile>
+          <mat-spinner *ngIf="!dataHasLoaded" [color]="color" value="30" mode="indeterminate"></mat-spinner>
+
         </mat-card-content>
         <!-- End Content of one tile      -->
       </mat-card>

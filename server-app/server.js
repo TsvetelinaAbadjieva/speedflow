@@ -74,7 +74,7 @@ app.get('/api/ui/userdata/', ensureToken, (req, res, next) => {
     console.log('decoded token ', decodedToken);
 
     if (decodedToken == 'homeWork') {
-        var data = userdata;
+        var data = {data: userdata, status_server: 'touched'};
         res.status(200).send(data);
     } else {
         res.status(400).send('Invalid token');

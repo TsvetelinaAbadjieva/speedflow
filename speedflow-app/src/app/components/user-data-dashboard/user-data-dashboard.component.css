@@ -35,3 +35,8 @@
 .mat-card{
   background:beige;
 }
+.mat-spinner{
+  color: lightgreen;
+  /* max-width: 10px;
+  min-width: 5px; */
+}

@@ -17,6 +17,8 @@ export class StatusComponent implements OnInit {
   statuses: any[] = [];
   endPointStauses = BASE_URL + 'ui/userdata/';
   dataHasLoaded: boolean = false;
+  reqStarted: boolean = false;
+  counter: number = 0;
 
   constructor(private http: HttpClient,
     private sharedService: ShareDataService,
@@ -31,17 +33,23 @@ export class StatusComponent implements OnInit {
   }
 
   loadData() {
+    this.reqStarted = true;
     this.http.get<any>(this.endPointStauses)
       .pipe(
         debounceTime(300),
         shareReplay()
       )
-      .toPromise().then(
-        res => {
-          console.log('Load Status data... -> ', res);
+      // .toPromise().then(
+        .subscribe(
+        result => {
+          console.log('REQUEST PASSED Load Status data... -> ', result);
+          this.reqStarted = false;
           this.dataHasLoaded = true;
           this.status = {};
           this.statuses = [];
+          // let res = result.data;
+          let res = result;
+
           this.status = {
             is_active: res.is_active,
             debet: res.debet,
@@ -61,20 +69,18 @@ export class StatusComponent implements OnInit {
   }
 
   loadMultiple(n){
-    this.dataHasLoaded = false;
-    let allReq = [];
-    let loadReq = new Promise((resolve, reject)=>{
-      if(!this.dataHasLoaded){
-        this.loadData();
-        resolve(this.statuses);
-      }else reject();
-    })
+    this.counter = 0;
     for (let i=0; i<n; i++){
-      allReq.push(loadReq);
+      this.delay(10).then(() => new Promise((resolve) => {
+            this.loadData();
+            resolve(this.statuses);
+        }));
     }
-    return  Promise.all(allReq).then(res => {
-      console.log('Promise statuses i-> ',res)
-    });
+  }
+
+  delay(sec: number){
+    return new Promise((resolve)=> setTimeout(() => resolve(),sec))
+    .then(() => console.log('Started req No =', this.counter++) );
   }
   refresh() {
     this.cache.cache.delete(this.endPointStauses);
